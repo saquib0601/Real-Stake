@@ -1,0 +1,49 @@
+.embla {
+  overflow: hidden;
+
+  &__container {
+    display: flex;
+    height: 100%;
+    transition: transform 0.3s ease-out;
+  }
+
+  &__slide {
+    position: relative;
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+}
+
+.embla-thumbs {
+  overflow: hidden;
+
+  &__container {
+    display: flex;
+    gap: 0.5rem;
+    transition: transform 0.3s ease-out;
+  }
+
+  &__slide {
+    position: relative;
+    flex: 0 0 80px;
+    min-width: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &.selected {
+      border: 2px solid #22c55e;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+} 

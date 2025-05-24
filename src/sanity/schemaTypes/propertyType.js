@@ -24,15 +24,109 @@ export const propertyType = defineType({
       validation: Rule => Rule.required(),
     }),
     defineField({
+      name: 'type',
+      title: 'Property Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'High Yield', value: 'high-yield'},
+          {title: 'Standard', value: 'standard'},
+        ],
+      },
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Available', value: 'available'},
+          {title: 'Fully Funded', value: 'fully-funded'},
+          {title: 'Coming Soon', value: 'coming-soon'},
+        ],
+      },
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
       name: 'price',
       title: 'Price',
       type: 'number',
       validation: Rule => Rule.required().positive(),
     }),
     defineField({
+      name: 'funded',
+      title: 'Funded Percentage',
+      type: 'number',
+      validation: Rule => Rule.required().min(0).max(100),
+    }),
+    defineField({
+      name: 'totalReturn',
+      title: 'Total Return',
+      type: 'string',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'yearlyReturn',
+      title: 'Yearly Return',
+      type: 'string',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'netYield',
+      title: 'Net Yield',
+      type: 'string',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'features',
+      title: 'Features',
+      type: 'array',
+      of: [{type: 'string'}],
+      validation: Rule => Rule.required().min(1),
+    }),
+    defineField({
+      name: 'investmentDetails',
+      title: 'Investment Details',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'minimumInvestment',
+          title: 'Minimum Investment',
+          type: 'string',
+          validation: Rule => Rule.required(),
+        }),
+        defineField({
+          name: 'targetReturn',
+          title: 'Target Return',
+          type: 'string',
+          validation: Rule => Rule.required(),
+        }),
+        defineField({
+          name: 'projectedRentalYield',
+          title: 'Projected Rental Yield',
+          type: 'string',
+          validation: Rule => Rule.required(),
+        }),
+        defineField({
+          name: 'investmentPeriod',
+          title: 'Investment Period',
+          type: 'string',
+          validation: Rule => Rule.required(),
+        }),
+        defineField({
+          name: 'expectedROI',
+          title: 'Expected ROI',
+          type: 'string',
+          validation: Rule => Rule.required(),
+        }),
+      ],
       validation: Rule => Rule.required(),
     }),
     defineField({
@@ -85,10 +179,11 @@ export const propertyType = defineType({
       name: 'location',
       title: 'Location',
       type: 'string',
+      validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'propertyType',
-      title: 'Property Type',
+      title: 'Property Category',
       type: 'string',
       options: {
         list: [
@@ -98,6 +193,19 @@ export const propertyType = defineType({
           {title: 'Land', value: 'land'},
         ],
       },
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'ready',
+      title: 'Ready for Investment',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'rented',
+      title: 'Currently Rented',
+      type: 'boolean',
+      initialValue: false,
     }),
   ],
   preview: {
@@ -105,14 +213,16 @@ export const propertyType = defineType({
       title: 'propertyName',
       images: 'images',
       price: 'price',
+      status: 'status',
+      type: 'type',
     },
     prepare(selection) {
-      const {price, images} = selection
+      const {price, images, status, type} = selection
       const mainImage = images?.find(img => img.isMainImage) || images?.[0]
       return {
         ...selection,
         media: mainImage,
-        subtitle: price && `$${price.toLocaleString()}`,
+        subtitle: `${status} • ${type} • $${price?.toLocaleString()}`,
       }
     },
   },
